@@ -28,10 +28,8 @@ function guessThoiGian() {
         }, 0)) {
             clearInterval(interval);
         }
-
         currentIndex++;
     }, 1500);
-
 
 }
 
@@ -51,21 +49,45 @@ function guessChuCai() {
     var kqString = "";
 
     var currentIndex = 0;
+    var isUpperCaseChuCai = false; // Biến để theo dõi trạng thái hiện tại của chữ in hoa trong bàn phím chữ cái
 
     function taoBanPhim() {
         // Remove the character buttons (if any)
         banphimDIV.innerHTML = "";
 
-        // Create buttons for each character in the Vietnamese alphabet
-        var banPhim = "abcdđefghijklmnopqrstuvwxyz";
+        // Thêm nút chuyển đổi chữ hoa chữ thường
+        var toggleCaseBtn = document.createElement('button');
+        toggleCaseBtn.innerText = "⬇";
+        toggleCaseBtn.onclick = function () {
+            toggleCaseChuCai();
+        };
+        banphimDIV.appendChild(toggleCaseBtn);
+
+        // Thêm các phím chữ cái
+        var banPhim = "abcdefghijklmnopqrstuvwxyz";
         for (var i = 0; i < banPhim.length; i++) {
             var phimchucai = document.createElement('button');
-            phimchucai.innerText = banPhim[i];
+            phimchucai.innerText = isUpperCaseChuCai ? banPhim[i].toUpperCase() : banPhim[i];
             phimchucai.onclick = function () {
                 checkAndReveal(this.innerText);
             };
             banphimDIV.appendChild(phimchucai);
         }
+
+    }
+
+    function toggleCaseChuCai() {
+        isUpperCaseChuCai = !isUpperCaseChuCai;
+
+        var banPhimButtons = document.getElementById('characterButtons').querySelectorAll('button');
+        for (var i = 0; i < banPhimButtons.length; i++) {
+            var character = isUpperCaseChuCai ? banPhimButtons[i].innerText.toUpperCase() : banPhimButtons[i].innerText.toLowerCase();
+            banPhimButtons[i].innerText = character;
+        }
+
+        // Thay đổi nội dung của nút
+        var toggleCaseBtn = document.getElementById('characterButtons').querySelector('button');
+        toggleCaseBtn.innerText = isUpperCaseChuCai ? "⬆" : "⬇";
     }
 
     function maHoa() {
@@ -74,8 +96,6 @@ function guessChuCai() {
         });
         return mahoaWords.join('\n');
     }
-
-
 
     function checkAndReveal(char) {
         for (var i = 0; i < inputText.trim().length; i++) {
@@ -93,7 +113,6 @@ function guessChuCai() {
     kqString = maHoa();
     ketquaDIV.innerText = kqString;
     taoBanPhim();
-    
 }
 
 function resetContent() {
