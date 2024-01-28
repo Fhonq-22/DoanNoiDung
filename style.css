@@ -19,6 +19,10 @@ input {
     padding: 10px;
     font-size: 16px;
     margin-bottom: 10px;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    box-shadow: #8fceba 0px 0px 40px 2px;
 }
 
 #buttonContainer {
@@ -76,6 +80,14 @@ button:hover {
     transition: background-color 0.3s;
 }
 
-#characterButtons button:hover {
+#characterButtons button:focus {
     background-color: #4cafa8;
+}
+
+#characterButtons button:first-child {
+    background-color: #eb8f8f;
+}
+
+#characterButtons button:first-child:focus {
+    background-color: #e26262;
 }
