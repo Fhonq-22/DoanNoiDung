@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đoán Nội Dung</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <label for="inputText">Nhập nội dung:</label>
+    <input type="text" id="inputText">
+    <div id="buttonContainer">
+        <button onclick="guessThoiGian()">
+            <img src="IMG/clock.png" alt="Clock Icon">
+        </button>
+        <button onclick="guessChuCai()">
+            <img src="IMG/abc-block.png" alt="Alphabet Icon">
+        </button>
+        <button onclick="resetContent()">
+            <img src="IMG/reset.png" alt="Alphabet Icon">
+        </button>
+    </div>
+
+    <div id="result"></div>
+    <div id="characterButtons"></div>
+    <script src="script.js"></script>
+</body>
+</html>
