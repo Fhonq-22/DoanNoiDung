@@ -1,6 +1,7 @@
 function guessThoiGian() {
     var inputText = document.getElementById('inputText').value;
     var ketquaDIV = document.getElementById('result');
+    var beep = new Audio('AUDIO/ClockBeep.mp3');
     document.getElementById('inputText').value = "";
 
     if (inputText.trim() === "") {
@@ -20,8 +21,8 @@ function guessThoiGian() {
 
     var currentIndex = 0;
     var interval = setInterval(function () {
-        kqString = maHoa();
-        ketquaDIV.innerText = kqString;
+        // kqString = maHoa();
+        // ketquaDIV.innerText = kqString;
 
         if (currentIndex >= words.reduce(function (acc, word) {
             return acc + word.length;
@@ -29,15 +30,37 @@ function guessThoiGian() {
             clearInterval(interval);
         }
         currentIndex++;
-    }, 1500);
+    }, 15000);
 
+    var countdownIndex = 0;
+    var tudainhat = words.reduce(function (max, word) {
+            return Math.max(max, word.length);
+        }, 0);
+    function startCountdown() {
+        var countdown = 14;
+        var countdownInterval = setInterval(function () {
+            kqString = maHoa();
+            ketquaDIV.innerHTML = `${kqString} <span class="demnguoc">${countdown}</span>`;
+
+            if (countdown === 0) {
+                clearInterval(countdownInterval);
+                countdownIndex++;
+                if (countdownIndex < tudainhat) {
+                    setTimeout(startCountdown, 0);
+                }
+            }
+            countdown--;
+            beep.play();
+        }, 1000);
+    }
+    startCountdown();
 }
-
 
 function guessChuCai() {
     var inputText = document.getElementById('inputText').value;
     var ketquaDIV = document.getElementById('result');
     var banphimDIV = document.getElementById('characterButtons');
+    var pop = new Audio('AUDIO/Pop.wav');
     document.getElementById('inputText').value = "";
 
     if (inputText.trim() === "") {
@@ -49,26 +72,27 @@ function guessChuCai() {
     var kqString = "";
 
     var currentIndex = 0;
-    var isUpperCaseChuCai = false; // Biến để theo dõi trạng thái hiện tại của chữ in hoa trong bàn phím chữ cái
+    var isUpperCaseChuCai = false;
 
     function taoBanPhim() {
-        // Remove the character buttons (if any)
         banphimDIV.innerHTML = "";
 
         // Thêm nút chuyển đổi chữ hoa chữ thường
         var toggleCaseBtn = document.createElement('button');
         toggleCaseBtn.innerText = "⬇";
         toggleCaseBtn.onclick = function () {
+            pop.play();
             toggleCaseChuCai();
         };
         banphimDIV.appendChild(toggleCaseBtn);
 
         // Thêm các phím chữ cái
-        var banPhim = "abcdefghijklmnopqrstuvwxyz";
+        var banPhim = "abcdđefghijklmnopqrstuvwxyz";
         for (var i = 0; i < banPhim.length; i++) {
             var phimchucai = document.createElement('button');
             phimchucai.innerText = isUpperCaseChuCai ? banPhim[i].toUpperCase() : banPhim[i];
             phimchucai.onclick = function () {
+                pop.play();
                 checkAndReveal(this.innerText);
             };
             banphimDIV.appendChild(phimchucai);
